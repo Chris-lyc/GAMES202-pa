@@ -1,9 +1,9 @@
 # GAMES202-pa
 
 ## PA0
-<center>
+<div align='center'>
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa0.png)
-</center>
+</div>
 ## PA1
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa1-1.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa1-2.png)
