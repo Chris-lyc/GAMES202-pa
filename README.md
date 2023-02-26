@@ -1,8 +1,9 @@
 # GAMES202-pa
 
 ## PA0
+<center>
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa0.png)
-
+</center>
 ## PA1
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa1-1.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa1-2.png)
@@ -22,6 +23,8 @@
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa4.png)
 
 ## PA5
+<center>
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-filter.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-input.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-result.png)
+</center>
