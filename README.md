@@ -17,8 +17,6 @@
 ## PA4
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa4.png)
 ## PA5
-<center>
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-filter.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-input.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-result.png)
-</center>
