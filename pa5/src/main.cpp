@@ -52,14 +52,14 @@ void Denoise(const filesystem::path &inputDir, const filesystem::path &outputDir
 
 int main() {
     // Box
-    filesystem::path inputDir("C:/Users/lyc/Desktop/games202/homework5/src/examples/box/input");
-    filesystem::path outputDir("C:/Users/lyc/Desktop/games202/homework5/src/examples/box/output");
+    filesystem::path inputDir("C:/Users/lyc/Desktop/games202/GAMES202-pa/pa5/src/examples/box/input");
+    filesystem::path outputDir("C:/Users/lyc/Desktop/games202/GAMES202-pa/pa5/src/examples/box/output");
     int frameNum = 20;
 
     
     // Pink room
-    // filesystem::path inputDir("C:/Users/lyc/Desktop/games202/homework5/src/examples/pink-room/input");
-    // filesystem::path outputDir("C:/Users/lyc/Desktop/games202/homework5/src/examples/pink-room/output");
+    // filesystem::path inputDir("C:/Users/lyc/Desktop/games202/GAMES202-pa/pa5/src/examples/pink-room/input");
+    // filesystem::path outputDir("C:/Users/lyc/Desktop/games202/GAMES202-pa/pa5/src/examples/pink-room/output");
     // int frameNum = 80;
     
 
