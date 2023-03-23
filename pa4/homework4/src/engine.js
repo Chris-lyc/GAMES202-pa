@@ -131,7 +131,7 @@ async function GAMES202Main() {
 		await cubeMaps[i].init();
 	}
 	let skyBoxTransform = setTransform(0, 50, 50, 150, 150, 150);
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'SkyBoxMaterial', skyBoxTransform);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'SkyBoxMaterial', skyBoxTransform);
 
 	function createGUI() {
 		const gui = new dat.gui.GUI();
