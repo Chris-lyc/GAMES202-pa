@@ -59,6 +59,11 @@
 	通过MVPE矩阵找到当前帧中的一点，对应在上一帧中的位置
 	结合上一帧的结果修正当前帧（需要对上一帧进行clamp防止拖尾等现象）
 
+单帧降噪：
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-filter.png)
+
+未降噪：
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-input.png)
+
+累计多帧降噪：
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-result.png)
