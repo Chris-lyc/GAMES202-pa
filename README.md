@@ -21,9 +21,9 @@
 
 将渲染方程中的L项用底层编码，如球谐函数SH表示。分别预计算好lighting项和light transport项的球谐函数系数。在渲染时仅需要将系数点乘（diffuse材质为向量点乘向量，glossy材质为向量点乘矩阵）即可，满足RT速度要求
 
-**优点：**速度快，可以处理shadow情况
+**优点**：速度快，可以处理shadow情况
 
-**缺点：**SH不足以描述高频信息、仅适用静态场景、存储数据量大
+**缺点**：SH不足以描述高频信息、仅适用静态场景、存储数据量大
 
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa2-CornellBox.png)
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa2-GraceCathedral.png)
@@ -55,6 +55,7 @@
 对于实时光线追踪来说，由于受到速度的严苛限制，往往只能在1SPP的情况下进行渲染，这将带来严重的噪点问题。对于这个问题，可以使用上一帧的渲染结果对当前帧进行修正。
 
 **主要步骤：**
+
 1.对当前帧进行普通的滤波降噪
 
 2.使用上一帧信息对当前帧修正
