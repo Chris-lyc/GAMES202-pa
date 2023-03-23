@@ -22,6 +22,7 @@
 将渲染方程中的L项用底层编码，如球谐函数SH表示。分别预计算好lighting项和light transport项的球谐函数系数。在渲染时仅需要将系数点乘（diffuse材质为向量点乘向量，glossy材质为向量点乘矩阵）即可，满足RT速度要求
 
 **优点：**速度快，可以处理shadow情况
+
 **缺点：**SH不足以描述高频信息、仅适用静态场景、存储数据量大
 
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa2-CornellBox.png)
@@ -60,10 +61,13 @@
 	结合上一帧的结果修正当前帧（需要对上一帧进行clamp防止拖尾等现象）
 
 单帧降噪：
+
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-filter.png)
 
 未降噪：
+
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-input.png)
 
 累计多帧降噪：
+
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-result.png)
