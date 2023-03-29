@@ -151,32 +151,28 @@ bool RayMarch(vec3 ori, vec3 dir, out vec3 hitPos) {
   //// screen space ray tracing
   float step=0.1;
   int level=0;
-  vec3 tmp_world=ori+step*dir;////
-  vec2 tmp_screen=GetScreenCoordinate(tmp_world);
+  vec3 tmp_world=ori;////
   const int count=60;
   //// mipmap
   for(int i=0;i<count;i++)
   {
-    if(GetDepth(tmp_world) - GetGBufferDepth(tmp_screen) > 1e-6)
+    vec3 next_tmp_world=tmp_world+step*dir;
+    vec2 next_tmp_screen=GetScreenCoordinate(next_tmp_world);
+    if(GetDepth(next_tmp_world) - GetGBufferDepth(next_tmp_screen) > 1e-6)
     {
-      // while(level>0)
-      // {
-      //   level--;
-      //   step/=2.0;
-      //   vec3 tmp_mid=tmp_world-step*dir;
-      //   vec2 tmp_screen=GetScreenCoordinate(tmp_mid);
-      //   if(GetDepth(tmp_mid) - GetGBufferDepth(tmp_screen) > 1e-6)
-      //   tmp_world=tmp_mid;
-      // }
-      hitPos=tmp_world;
-      return true;
+      if(level==0)
+      {
+        hitPos=next_tmp_world;
+        return true;
+      }
+      level--;
+      step*=0.5;
+      continue;
     }
-    // level++;
-    // step*=2.0;
-    tmp_world=tmp_world+step*dir;
-    tmp_screen=GetScreenCoordinate(tmp_world);
+    level++;
+    step*=2.0;
+    tmp_world=next_tmp_world;
   }
-
   return false;
 }
 
@@ -223,19 +219,19 @@ void main() {
   vec3 normal=normalize(GetGBufferNormalWorld(uv));
   vec3 b1,b2;
   LocalBasis(normal,b1,b2);
-  b1=normalize(b1);
-  b2=normalize(b2);
+  mat3 worldToLocal=mat3(b1,b2,normal);
+  Rand1(s);
+  vec3 hitPos;
   for(int i=0;i<SAMPLE_NUM;i++)
   {
-    Rand1(s);
     //// sample
-    vec3 hitPos;
     vec3 dir_local=SampleHemisphereCos(s, pdf);
-    vec3 dir=normalize(b1*dir_local.x+b2*dir_local.y+normal*dir_local.z);
+    vec3 dir=normalize(worldToLocal*dir_local);
 
     if(RayMarch(vPosWorld.xyz,dir,hitPos))
     {
       //// compute indirect light
+      dir=normalize(hitPos - vPosWorld.xyz);
       vec2 hit_uv=GetScreenCoordinate(hitPos);
       vec3 bsdf0=EvalDiffuse(dir,wo,uv);
       vec3 bsdf1=EvalDiffuse(wi,-dir,hit_uv);
