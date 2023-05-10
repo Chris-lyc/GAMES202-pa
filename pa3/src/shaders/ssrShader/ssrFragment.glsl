@@ -147,29 +147,29 @@ vec3 EvalDirectionalLight(vec2 uv) {
 }
 
 bool RayMarch(vec3 ori, vec3 dir, out vec3 hitPos) {
-  
   //// screen space ray tracing
   float step=0.1;
-  int level=0;
+  // int level=0;
   vec3 tmp_world=ori;////
-  const int count=60;
+  const int count=150;
   //// mipmap
   for(int i=0;i<count;i++)
   {
     vec3 next_tmp_world=tmp_world+step*dir;
     vec2 next_tmp_screen=GetScreenCoordinate(next_tmp_world);
+    if(next_tmp_screen.x<0.0||next_tmp_screen.x>1.0||next_tmp_screen.y<0.0||next_tmp_screen.y>1.0)break;
     if(GetDepth(next_tmp_world) - GetGBufferDepth(next_tmp_screen) > 1e-6)
     {
-      if(level==0)
+      if(step<0.01)
       {
         hitPos=next_tmp_world;
         return true;
       }
-      level--;
+      // level--;
       step*=0.5;
       continue;
     }
-    level++;
+    // level++;
     step*=2.0;
     tmp_world=next_tmp_world;
   }
@@ -209,7 +209,7 @@ void main() {
   // L = EvalDirectionalLight(uv)*EvalDiffuse(wi,wo,uv);
 
   // //use SSR
-  // L = TestSSR(wi,wo,uv);
+  // L = TestSSR(wi,wo,uv)+GetGBufferDiffuse(uv);
 
   // use indirect light
   L=EvalDirectionalLight(uv)*EvalDiffuse(wi,wo,uv);
@@ -220,11 +220,11 @@ void main() {
   vec3 b1,b2;
   LocalBasis(normal,b1,b2);
   mat3 worldToLocal=mat3(b1,b2,normal);
-  Rand1(s);
   vec3 hitPos;
   for(int i=0;i<SAMPLE_NUM;i++)
   {
     //// sample
+    Rand1(s);
     vec3 dir_local=SampleHemisphereCos(s, pdf);
     vec3 dir=normalize(worldToLocal*dir_local);
 
