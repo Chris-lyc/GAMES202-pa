@@ -1,4 +1,4 @@
 *.pdf
 build
 .vscode
-examples
+pa5/src/examples
