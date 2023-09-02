@@ -20,7 +20,7 @@ varying highp vec3 vFragPos;
 varying highp vec3 vNormal;
 
 // Shadow map related variables
-#define NUM_SAMPLES 20 //要调参 太糊了就增加采样率；要是阴影透光就说明filter的尺度太大
+#define NUM_SAMPLES 40 //要调参 太糊了就增加采样率；要是阴影透光就说明filter的尺度太大
 #define BLOCKER_SEARCH_NUM_SAMPLES NUM_SAMPLES
 #define PCF_NUM_SAMPLES NUM_SAMPLES
 #define NUM_RINGS 10
@@ -97,7 +97,7 @@ float findBlocker( sampler2D shadowMap,  vec2 uv, float zReceiver ) {
   float texturesize=2048.0;
   float filtersize=20.0;
   float filterstride=1.0;
-  float filterrange=filterstride/texturesize*filtersize;//???不知道怎么来的
+  float filterrange=filterstride/texturesize*filtersize;
 
   float res=0.0;
   float sum=0.0;
@@ -123,24 +123,23 @@ float findBlocker( sampler2D shadowMap,  vec2 uv, float zReceiver ) {
 }
 
 float PCF(sampler2D shadowMap, vec4 coords) {
-  //？？？不懂
   float texturesize=2048.0;
-  float filtersize=5.0;
+  float filtersize=20.0;
   float filterstride=1.0;
-  float filterrange=filterstride*filtersize/texturesize;//possionDisk是偏移量，乘以滤波窗口的范围再加上原坐标得到新坐标 2048是engine.js中纹理的分辨率，5是滤波的步长？？为什么
+  float filterrange=filterstride*filtersize/texturesize;//possionDisk是偏移量，乘以滤波窗口的范围再加上原坐标得到新坐标 2048是engine.js中纹理的分辨率，5是滤波的步长
   //滤波的步长是按照像素点的个数来说的，如5*5和7*7。
-  
+  // float filterrange=0.02;
+
   poissonDiskSamples(coords.xy);
   // uniformDiskSamples(coords.xy);
   
   float res=0.0;
   for(int i=0;i<NUM_SAMPLES;i++)
   {
-    float light_depth=unpack(texture2D(shadowMap,coords.xy+filterrange*poissonDisk[i]));//此处如果用0.02代替filterrange,则整个图像很糊
+    float light_depth=unpack(texture2D(shadowMap,coords.xy+filterrange*poissonDisk[i]));
     res+=1.0/float(NUM_SAMPLES) * (light_depth+EPS<coords.z?0.0:1.0);
   }
   return res;
-  return 1.0;
 }
 
 #define sizeOfLight 10.0
@@ -152,8 +151,9 @@ float PCSS(sampler2D shadowMap, vec4 coords){
   float wp=sizeOfLight*(coords.z-avg_depth)/avg_depth;
   // STEP 3: filtering
   float texturesize=2048.0;
-  float filtersize=2.0;
-  float filterrange=wp*filtersize/texturesize;
+  float filtersize=wp*3.0;
+  float filterstride=1.0;
+  float filterrange=filterstride*filtersize/texturesize;
   float res=0.0;
 
   poissonDiskSamples(coords.xy);
@@ -163,16 +163,12 @@ float PCSS(sampler2D shadowMap, vec4 coords){
     res+=1.0/float(NUM_SAMPLES) * (light_depth+EPS<coords.z?0.0:1.0);
   }
   return res;
-  return 1.0;
-
 }
 
 //hard shadow
 float useShadowMap(sampler2D shadowMap, vec4 shadowCoord){
-  
   float map_depth=unpack(texture2D(shadowMap,shadowCoord.xy));//texture2D()用于在纹理坐标中查询纹理，返回vec4
-  //unpack是什么？？
-  if(shadowCoord.z>map_depth)return 0.0;//shadowcoord来自vPositionFromLight，就是从light看去的坐标了
+  if(shadowCoord.z>map_depth)return 0.0;//shadowcoord来自vPositionFromLight，就是从light看去的坐标
   return 1.0;
 }
 
@@ -203,13 +199,10 @@ void main(void) {
 
   float visibility;
 
-  //硬阴影卡了很久，因为没有看懂框架的意义
-  //shadowCoord怎么可能凭空有呢？glsl就是c，肯定要符合c的语法，自己不要随意臆想
   vec3 shadowCoord=vPositionFromLight.xyz/vPositionFromLight.w;//变成[-1,1]坐标，就是将第四维深度变成1
   shadowCoord = shadowCoord.xyz * 0.5 + vec3(0.5, 0.5, 0.5);//变成[0,1]坐标，就是将[-1,1]变成[0,1]，缩放再平移/平移再缩放
 
-  // visibility = useShadowMap(uShadowMap, vec4(shadowCoord, 1.0));//注释都不敢解掉，完全没搞懂代码。
-  //不要猜，要去看代码，用你知道的语法规则去分析，他不是玄学，是你学过的语法
+  // visibility = useShadowMap(uShadowMap, vec4(shadowCoord, 1.0));
 
   // if(visibility+EPS<1.0)
   // visibility = PCF(uShadowMap, vec4(shadowCoord, 1.0));

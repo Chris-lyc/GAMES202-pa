@@ -75,3 +75,13 @@
 累计多帧降噪：
 
 ![image](https://github.com/Chris-lyc/GAMES202-pa/blob/main/images/pa5-result.png)
+
+## 启动
+
+进入项目目录，控制台输入
+
+```
+http-server -c-1
+```
+
+点击随后出现的任一网址
