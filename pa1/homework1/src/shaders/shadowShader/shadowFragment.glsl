@@ -9,7 +9,6 @@ varying highp vec3 vNormal;
 varying highp vec2 vTextureCoord;
 
 //pack() 函数实现了将一个[0,1]浮点数以 RGBA 纹理保存的方式。这个函数非常关键，涉及到在 phongFragment 中进行 Shadow Map 采样并获取深度的方法。
-//？什么意思
 vec4 pack (float depth) {
     // 使用rgba 4字节共32位来存储z值,1个字节精度为1/256
     const vec4 bitShift = vec4(1.0, 256.0, 256.0 * 256.0, 256.0 * 256.0 * 256.0);
